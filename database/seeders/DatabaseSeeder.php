@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\Administration\Order\OrderItemStateSeeder;
+use Database\Seeders\Administration\Order\OrderStateSeeder;
 use Illuminate\Database\Seeder;
 use Database\Seeders\SupplierSeeder;
 use Database\Seeders\RoleSeeder;
@@ -20,6 +22,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             SupplierSeeder::class,
+            OrderStateSeeder::class,
+            OrderItemStateSeeder::class,
         ]);
     }
 }
