@@ -15,7 +15,8 @@ class SupplierSeeder extends Seeder
     public function run()
     {
         Supplier::factory()
-            ->times(20)
-            ->create();
+            ->create([
+                'user_id' => 2,
+            ]);
     }
 }
