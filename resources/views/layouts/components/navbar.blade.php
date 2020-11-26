@@ -32,7 +32,7 @@
                 
                 @if (Auth::user()->isAdmin())
                    <li class="nav-item">
-                    <a class="nav-link" href="">Administracja</a>
+                    <a class="nav-link text-danger" href="{{ route('administration-dashboard') }}">Administracja <i class="fas fa-hammer"></i></a>
                 </li> 
                 @endif
                 <li class="nav-item dropdown">

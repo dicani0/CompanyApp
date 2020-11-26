@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card-deck mb-5">
-                <div class="card bg-success text-white border-warning">
+                <div class="card bg-success text-white border-info">
                     <div class="card-header">
                         Catering
                     </div>
