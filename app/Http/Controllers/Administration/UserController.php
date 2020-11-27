@@ -17,7 +17,6 @@ class UserController extends Controller
      */
     public function index()
     {
-
         $trashed = preg_match('/trashed/', request()->url()) === 1;
         if ($trashed) {
             $users = User::onlyTrashed()->get();
