@@ -18,6 +18,7 @@ class CreateSuppliersTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('name');
             $table->string('address');
+            $table->text('description')->nullable();
             $table->string('logo')->nullable();
             $table->timestamps();
 

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="d-flex flex-wrap flex-row">
+    <div class="d-flex flex-wrap flex-row container">
         <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3 text-center">
             <a class="card bg-info text-light text-decoration-none" href="{{ route('users.index') }}">
                 <div class="card-header">
@@ -9,16 +9,16 @@
             </a>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3 text-center">
-            <a class="card bg-info text-light text-decoration-none" href="#">
+            <a class="card bg-info text-light text-decoration-none" href="{{ route('users.trashed') }}">
                 <div class="card-header">
-                    Roles
+                    Trashed Users
                 </div>
             </a>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3 text-center">
-            <a class="card bg-info text-light text-decoration-none" href="{{ route('users.trashed') }}">
+            <a class="card bg-info text-light text-decoration-none" href="#">
                 <div class="card-header">
-                    Trashed Users
+                    Roles
                 </div>
             </a>
         </div>

@@ -13,13 +13,14 @@
 
     <ul class="list-group">
         @foreach ($suppliers as $supplier)
-        <li class="list-group-item d-flex flex-column justify-content-between align-items-start">
+        <a href="#" class="list-group-item d-flex flex-column justify-content-between align-items-start text-decoration-none blurred">
             <div class="d-flex w-100 justify-content-between align-items-center mb-2">
                 <h5 class="mb-1">{{ $supplier->name }}</h5>
                 <div class="badge badge-info">10</div>
             </div>
-            <p>{{ $supplier->address }}</p>
-        </li>
+            <p>{{ $supplier->description }}</p>
+            <p><small>{{ $supplier->address }}</small></p>
+        </a>
         @endforeach
 
     </ul>
