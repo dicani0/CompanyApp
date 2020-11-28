@@ -25,6 +25,7 @@
         </div>
     </div>
    <div class="text-center">
+        <a href="{{ url()->previous() }}" class="btn btn-warning w-25">Cancel</a>
        {{ html()->submit('Add')->class('btn btn-success w-25') }}
    </div>
     {{ html()->form()->close() }}

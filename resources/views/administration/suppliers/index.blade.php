@@ -3,7 +3,10 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center pb-3">
             <h3 class="m-0">Suppliers</h3>
-            <a href="{{ route('suppliers.create') }}" class="btn btn-primary">Add</a>
+            <div class="btn-group">
+                <a href="{{ route('administration-dashboard') }}" class="btn btn-warning">Go back</a>
+                <a href="{{ route('suppliers.create') }}" class="btn btn-primary">Add</a>
+            </div>
         </div>
         <ul class="list-group">
             @foreach ($suppliers as $supplier)
