@@ -17,9 +17,7 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+
 
 Auth::routes();
 
@@ -27,6 +25,9 @@ Auth::routes();
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/catering/dashboard', [CateringController::class, 'dashboard'])->name('catering');
+    Route::get('/', function () {
+        return view('home');
+    });
 });
 
 Route::group(['middleware' => ['auth', 'isAdmin']], function () {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Administration;
 
 use App\Http\Controllers\Controller;
 use App\Models\Catering\Supplier;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SupplierController extends Controller
@@ -25,7 +26,18 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        //
+        $users = User::whereHas('roles', function ($q) {
+            $q->where('name', '=', 'supplier');
+        })->get()
+            ->pluck('name', 'id');
+        // dd($users);
+        // $users = User::join('user_role', 'user_role.user_id', '=', 'users.id')
+        //     ->join('roles', 'roles.id', '=', 'user_role.role_id')
+        //     ->where('roles.name', '=', 'supplier')
+        //     ->select('users.name', 'users.id')
+        //     ->get()
+        //     ->pluck('name', 'id');
+        return view('administration.suppliers.create', ['users' => $users]);
     }
 
     /**
@@ -36,7 +48,21 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'address' => 'required',
+            'description' => 'required',
+            'user_id' => 'required',
+        ]);
+        Supplier::create([
+            'name' => $request->name,
+            'address' => $request->address,
+            'description' => $request->description,
+            'user_id' => $request->user_id,
+        ])
+            ->save();
+        flash('Supplier added!');
+        return redirect()->route('suppliers.index');
     }
 
     /**

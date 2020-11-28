@@ -1,7 +1,10 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
-        <h3 class="mb-3">Suppliers</h3>
+        <div class="d-flex justify-content-between align-items-center pb-3">
+            <h3 class="m-0">Suppliers</h3>
+            <a href="{{ route('suppliers.create') }}" class="btn btn-primary">Add</a>
+        </div>
         <ul class="list-group">
             @foreach ($suppliers as $supplier)
                 <li class="list-group-item border-secondary">
