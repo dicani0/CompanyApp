@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Administration\Role;
+use App\Models\Catering\Funding;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -50,6 +51,11 @@ class User extends Authenticatable
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'user_role', 'user_id', 'role_id');
+    }
+
+    public function funding()
+    {
+        return $this->hasOne(Funding::class);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Catering\Funding;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\TableComponent;
@@ -44,6 +45,11 @@ class UsersTable extends TableComponent
                         return
                             '<span class="badge badge-info badge-pill mx-1">' . $name . '</span>';
                     })->join(''));
+                }),
+            Column::make('Fundings')
+                ->sortable()
+                ->format(function (User $model) {
+                    return $this->html($model->funding->amount . " PLN");
                 }),
             Column::make('Actions')
                 ->format(function (User $model) {
