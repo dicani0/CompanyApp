@@ -84,10 +84,16 @@ class SupplierController extends Controller
      */
     public function edit(Supplier $supplier)
     {
+        $users = User::whereHas('roles', function ($q) {
+            $q->where('name', '=', 'supplier');
+        })->get()
+            ->pluck('name', 'id');
+
         return view(
             'administration.suppliers.edit',
             [
-                'supplier' => $supplier
+                'supplier' => $supplier,
+                'users' => $users,
             ]
         );
     }
@@ -105,12 +111,14 @@ class SupplierController extends Controller
             'name' => 'required',
             'address' => 'required',
             'description' => 'required',
+            'user_id' => 'required'
         ]);
 
         $supplier->update([
             'name' => $request->name,
             'address' => $request->address,
             'description' => $request->description,
+            'user_id' => $request->user_id,
         ]);
 
         \flash('Supplier updated!');

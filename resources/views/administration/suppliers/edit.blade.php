@@ -12,6 +12,10 @@
                 {{ html()->label('Address')->for('address') }}
                 {{ html()->text('address')->class('form-control') }}
             </div>
+            <div class="form-group">
+                {{ html()->label('User')->for('user_id') }}
+                {{ html()->select('user_id', $users)->class('form-control') }}
+            </div>
         </div>
         <div class="col-6">
                 {{ html()->label('Description')->for('description') }}
