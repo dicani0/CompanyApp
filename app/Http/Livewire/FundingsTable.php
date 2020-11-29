@@ -2,26 +2,20 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Catering\Funding;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\TableComponent;
 use Rappasoft\LaravelLivewireTables\Traits\HtmlComponents;
 use Rappasoft\LaravelLivewireTables\Views\Column;
+use App\Models\Catering\Funding;
 
-class UsersTable extends TableComponent
+class FundingsTable extends TableComponent
 {
     use HtmlComponents;
 
-    public $trashed;
-
     public function query(): Builder
     {
-        if ($this->trashed) {
-            return User::onlyTrashed()->with('roles');
-        } else {
-            return User::withoutTrashed();
-        }
+        return User::withoutTrashed();
     }
 
     public function columns(): array
@@ -39,16 +33,14 @@ class UsersTable extends TableComponent
                 ->format(function (User $model) {
                     return $this->mailto($model->email, null, ['target' => '_blank']);
                 }),
-            Column::make('Roles')
+            Column::make('Fundings [PLN]')
+                ->sortable()
                 ->format(function (User $model) {
-                    return $this->html($model->roles->pluck('name')->map(function ($name) {
-                        return
-                            '<span class="badge badge-info badge-pill mx-1">' . $name . '</span>';
-                    })->join(''));
+                    return $this->html($model->funding->amount);
                 }),
             Column::make('Actions')
                 ->format(function (User $model) {
-                    return view('administration.users.actions', ['user' => $model, 'trashed' => $this->trashed]);
+                    return view('administration.fundings.actions', ['user' => $model]);
                 }),
         ];
     }

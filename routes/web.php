@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Administration\AdminDashboardController;
+use App\Http\Controllers\Administration\FundingController;
 use App\Http\Controllers\Administration\SupplierController;
 use App\Http\Controllers\Administration\UserController;
 use App\Http\Controllers\Catering\CateringController;
@@ -40,4 +41,9 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function () {
     Route::delete('/administration/users/{user}/force-delete', [UserController::class, 'forceDelete'])->name('users.force-delete');
 
     Route::resource('/administration/suppliers', SupplierController::class);
+
+    Route::get('/administration/fundings/{id}/clear', [FundingController::class, 'clearUserFunding'])->name('fundings.clear');
+    Route::get('/administration/fundings/{id}/renew', [FundingController::class, 'renewUserFunding'])->name('fundings.renew.one');
+    Route::get('/administration/fundings/renew', [FundingController::class, 'renewAllFundings'])->name('fundings.renew');
+    Route::resource('/administration/fundings', FundingController::class);
 });

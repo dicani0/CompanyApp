@@ -26,7 +26,7 @@
             </a>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3 text-center">
-            <a class="card bg-info text-light text-decoration-none" href="#">
+            <a class="card bg-info text-light text-decoration-none" href="{{ route('fundings.index') }}">
                 <div class="card-header">
                     <p class="h4">
                         Fundings

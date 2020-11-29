@@ -3,10 +3,8 @@
 @livewireStyles
     <div class="container">
         @if ($trashed)
-        <div class="d-flex">
-            <h2 class="d-inline-block align-items-center mb-5">Trashed Users</h2>
-            <a href="{{ route('administration-dashboard') }}" class="btn btn-dark align-self-center mx-2">Go back</a>
-        </div>
+        <h2 class="d-inline-block align-items-center mb-5">Trashed Users</h2>
+        <a href="{{ url()->previous() }}" class="btn btn-dark align-self-center mx-2">Go back</a>
         @else
         <h2 class="d-inline-block align-items-center mb-5">Users</h2>
         <a href="{{ url()->previous() }}" class="btn btn-dark align-self-center mx-2">Go back</a>

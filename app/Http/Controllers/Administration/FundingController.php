@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Administration;
 
-use App\Models\Catering\Funding;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Catering\Funding;
+use App\Models\User;
 
 class FundingController extends Controller
 {
@@ -14,7 +16,49 @@ class FundingController extends Controller
      */
     public function index()
     {
-        //
+        return view('administration.fundings.index', ['users' => User::withoutTrashed()->get(), 'fundings' => Funding::all()]);
+    }
+
+    /**
+     * Renew all users fundings.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function renewAllFundings()
+    {
+        Funding::query()->update([
+            'amount' => 300
+        ]);
+        flash('All users fundings renewed!');
+        return redirect()->route('fundings.index');
+    }
+
+    /**
+     * Renew one user fundings.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function renewUserFunding($id)
+    {
+        Funding::where('user_id', $id)->update([
+            'amount' => 200
+        ]);
+        flash('User funding renewed!');
+        return redirect()->route('fundings.index');
+    }
+
+    /**
+     * Clear one user fundings.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function clearUserFunding($id)
+    {
+        Funding::where('user_id', $id)->update([
+            'amount' => 0
+        ]);
+        flash('User funding zeroed!');
+        return redirect()->route('fundings.index');
     }
 
     /**

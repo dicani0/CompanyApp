@@ -16,6 +16,7 @@ class CreateFundingsTable extends Migration
         Schema::create('fundings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->decimal('default_value');
             $table->decimal('amount');
             $table->timestamps();
 
