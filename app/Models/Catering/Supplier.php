@@ -10,4 +10,9 @@ class Supplier extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'address', 'description', 'user_id', 'logo'];
+
+    public function dishes()
+    {
+        return $this->hasMany(Dish::class);
+    }
 }

@@ -32,8 +32,9 @@
                 
                 @if (Auth::user()->isAdmin())
                    <li class="nav-item">
-                    <a class="nav-link text-danger btn btn-secondary" href="{{ route('administration-dashboard') }}">Administracja <i class="fas fa-hammer"></i></a>
+                    <a class="nav-link text-dark btn btn-primary" href="{{ route('administration-dashboard') }}">Administration <i class="fas fa-hammer"></i></a>
                 </li> 
+
                 @endif
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -51,6 +52,32 @@
                         </form>
                     </div>
                 </li>
+
+                <li class="nav-item dropdown d-flex align-items-center">
+                    <a id="cartDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link text-dark btn btn-warning dropdown-toggle">
+                        <i class="fas fa-shopping-cart">
+                            <div class="ml-1 badge badge-pill badge-success">
+                                {{ Auth::user()->getCart()->dishes->count() }}
+                            </div>
+                        </i>
+                    </a>    
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="cartDropdown">
+                        <ul class="list-group border border-warning">
+                            @foreach (Auth::user()->getCart()->dishes as $dish)
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>{{ $dish->name }}&nbsp;&nbsp;&nbsp;</span>
+                                    <span class="mr-5">x{{ Auth::user()->getCart()->dishes->find($dish->id)->pivot->amount }}szt.</span>
+                                    <span class="ml-5">{{ Auth::user()->getCart()->getDishPrice($dish->id)}}zł</span>
+                                      <div class="float-right"></div>
+                                </li>    
+                            @endforeach
+                            <li class="list-group-item bg-info text-dark">
+                                <p class="m-0">Price: <strong class="float-right">{{ Auth::user()->getCart()->getPrice() }}zł</strong></p>
+                            </li>
+                        </ul>
+                    </div>                
+                </li>
+
                 @endguest
             </ul>
         </div>

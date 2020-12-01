@@ -26,7 +26,12 @@ class DishController extends Controller
      */
     public function allSupplierDishes(Supplier $supplier)
     {
-        return view('catering.menu', ['dishes' => Dish::where('supplier_id', $supplier->id)->first()->get()]);
+        if (!$supplier->dishes()->exists()) {
+            flash('This supplier has no dishes in menu yet.')->warning();
+            return redirect()->back();
+        }
+
+        return view('catering.dishes.menu', ['supplier' => $supplier]);
     }
 
     /**
@@ -34,9 +39,9 @@ class DishController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Supplier $supplier)
     {
-        //
+        return view('catering.dishes.create', ['supplier' => $supplier]);
     }
 
     /**
@@ -47,7 +52,25 @@ class DishController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'image' => 'required|image',
+            'price' => 'required|numeric',
+            'special_price' => 'required|numeric',
+        ]);
+
+        $imgPath = $request->file('image')->store('dishes', 'public');
+
+        Dish::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'image' => $imgPath,
+            'price' => $request->price,
+            'special_price' => $request->special_price,
+            'supplier_id' => $request->supplier_id,
+        ]);
+        return redirect()->route('dishes', $request->supplier_id);
     }
 
     /**

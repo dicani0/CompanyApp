@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use App\Models\Administration\Role;
+use App\Models\Catering\Cart;
 use App\Models\Catering\Funding;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -86,5 +88,29 @@ class User extends Authenticatable
     public function isVerified(): bool
     {
         return $this->verified === 1;
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function carts(): HasMany
+    {
+        return $this->hasMany(Cart::class);
+    }
+
+    /**
+     * @return Cart
+     */
+    public function getCart(): Cart
+    {
+        $cart = $this->carts->last();
+
+        if (!$cart) {
+            $cart = new Cart;
+            $cart->user_id = $this->id;
+            $cart->save();
+        }
+
+        return $cart;
     }
 }

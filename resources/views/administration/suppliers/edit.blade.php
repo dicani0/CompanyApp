@@ -31,7 +31,7 @@
     </div>
    <div class="text-center">
        {{ html()->submit('Update')->class('btn btn-success w-25') }}
-       <a href="{{ url()->previous() }}" class="btn btn-warning w-25">Cancel</a>
+       <a href="{{ route('suppliers.index') }}" class="btn btn-warning w-25">Cancel</a>
    </div>
     {{ html()->form()->close() }}
 </div>
