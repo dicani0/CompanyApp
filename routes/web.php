@@ -29,6 +29,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::get('/cart/add/{dish}', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::get('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
 
     Route::get('/catering/dashboard', [CateringController::class, 'dashboard'])->name('catering');
 

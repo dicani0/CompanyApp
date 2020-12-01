@@ -74,6 +74,9 @@
                             <li class="list-group-item bg-info text-dark">
                                 <p class="m-0">Price: <strong class="float-right">{{ Auth::user()->getCart()->getPrice() }}zł</strong></p>
                             </li>
+                            <li class="list-group-item">
+                                <a href="{{ route('cart.clear') }}" class="btn btn-info float-right">Clear</a>
+                            </li>
                         </ul>
                     </div>                
                 </li>

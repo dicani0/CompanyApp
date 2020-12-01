@@ -38,4 +38,12 @@ class CartController extends Controller
         flash($dish->name . ' added to cart');
         return redirect()->back();
     }
+
+    public function clearCart()
+    {
+        $cart = Auth::user()->getCart();
+        $cart->dishes()->detach();
+        flash('Cart cleared');
+        return redirect()->back();
+    }
 }
