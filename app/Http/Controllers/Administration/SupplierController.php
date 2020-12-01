@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Catering\Supplier;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SupplierController extends Controller
 {
@@ -30,13 +31,7 @@ class SupplierController extends Controller
             $q->where('name', '=', 'supplier');
         })->get()
             ->pluck('name', 'id');
-        // dd($users);
-        // $users = User::join('user_role', 'user_role.user_id', '=', 'users.id')
-        //     ->join('roles', 'roles.id', '=', 'user_role.role_id')
-        //     ->where('roles.name', '=', 'supplier')
-        //     ->select('users.name', 'users.id')
-        //     ->get()
-        //     ->pluck('name', 'id');
+
         return view('administration.suppliers.create', ['users' => $users]);
     }
 
@@ -53,12 +48,17 @@ class SupplierController extends Controller
             'address' => 'required',
             'description' => 'required',
             'user_id' => 'required',
+            'image' => 'required|image',
         ]);
+
+        $imgPath = $request->file('image')->store('suppliers', 'public');
+
         Supplier::create([
             'name' => $request->name,
             'address' => $request->address,
             'description' => $request->description,
             'user_id' => $request->user_id,
+            'logo' => $imgPath,
         ])
             ->save();
         flash('Supplier added!');
@@ -111,15 +111,29 @@ class SupplierController extends Controller
             'name' => 'required',
             'address' => 'required',
             'description' => 'required',
-            'user_id' => 'required'
+            'user_id' => 'required',
+            'logo' => 'image',
         ]);
 
-        $supplier->update([
-            'name' => $request->name,
-            'address' => $request->address,
-            'description' => $request->description,
-            'user_id' => $request->user_id,
-        ]);
+        if (isset($request->image)) {
+            Storage::disk('public')->delete($supplier->logo);
+            $imgPath = $request->file('image')->store('suppliers', 'public');
+            $supplier->update([
+                'name' => $request->name,
+                'address' => $request->address,
+                'description' => $request->description,
+                'user_id' => $request->user_id,
+                'logo' => $imgPath,
+            ]);
+        } else {
+            $supplier->update([
+                'name' => $request->name,
+                'address' => $request->address,
+                'description' => $request->description,
+                'user_id' => $request->user_id,
+            ]);
+        }
+
 
         \flash('Supplier updated!');
         return redirect()->route('suppliers.index');

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Catering\Funding;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class FundingController extends Controller
 {
@@ -27,8 +28,9 @@ class FundingController extends Controller
     public function renewAllFundings()
     {
         Funding::query()->update([
-            'amount' => 300
+            'amount' => DB::raw('default_amount')
         ]);
+
         flash('All users fundings renewed!');
         return redirect()->route('fundings.index');
     }
@@ -41,7 +43,7 @@ class FundingController extends Controller
     public function renewUserFunding($id)
     {
         Funding::where('user_id', $id)->update([
-            'amount' => 200
+            'amount' => DB::raw('default_amount')
         ]);
         flash('User funding renewed!');
         return redirect()->route('fundings.index');
@@ -113,7 +115,14 @@ class FundingController extends Controller
      */
     public function update(Request $request, Funding $funding)
     {
-        //
+        $request->validate([
+            'amount' => 'required|numeric'
+        ]);
+        $funding->update([
+            'default_amount' => $request->amount
+        ]);
+        flash('Default funding value updated');
+        return redirect()->route('fundings.index');
     }
 
     /**

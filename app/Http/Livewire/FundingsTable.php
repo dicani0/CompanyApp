@@ -33,11 +33,8 @@ class FundingsTable extends TableComponent
                 ->format(function (User $model) {
                     return $this->mailto($model->email, null, ['target' => '_blank']);
                 }),
-            Column::make('Fundings [PLN]')
-                ->sortable()
-                ->format(function (User $model) {
-                    return $this->html($model->funding->amount);
-                }),
+            Column::make('Fundings [PLN]', 'funding.amount')
+                ->sortable(),
             Column::make('Actions')
                 ->format(function (User $model) {
                     return view('administration.fundings.actions', ['user' => $model]);

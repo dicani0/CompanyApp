@@ -25,8 +25,8 @@
         </div>
     </div>
    <div class="text-center">
-        <a href="{{ url()->previous() }}" class="btn btn-warning w-25">Cancel</a>
        {{ html()->submit('Add')->class('btn btn-success w-25') }}
+        <a href="{{ url()->previous() }}" class="btn btn-warning w-25">Cancel</a>
    </div>
     {{ html()->form()->close() }}
 </div>
@@ -34,7 +34,7 @@
 
 @section('scripts')
     <script defer>
-        $(document).ready(function() {
+        $(document).ready(function(id, value) {
             $('.select-form').select2();
         });
     </script>

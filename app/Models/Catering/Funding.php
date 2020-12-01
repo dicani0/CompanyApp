@@ -10,6 +10,8 @@ class Funding extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['amount', 'default_amount'];
+
     public function user()
     {
         return $this->belongsTo(User::class);

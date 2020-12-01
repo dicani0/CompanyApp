@@ -5,6 +5,7 @@ use App\Http\Controllers\Administration\FundingController;
 use App\Http\Controllers\Administration\SupplierController;
 use App\Http\Controllers\Administration\UserController;
 use App\Http\Controllers\Catering\CateringController;
+use App\Http\Controllers\Catering\DishController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 /*
@@ -25,10 +26,13 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('/catering/dashboard', [CateringController::class, 'dashboard'])->name('catering');
     Route::get('/', function () {
         return view('home');
     });
+
+    Route::get('/catering/dashboard', [CateringController::class, 'dashboard'])->name('catering');
+
+    Route::get('/catering/{supplier}', [DishController::class, 'allSupplierDishes'])->name('dishes');
 });
 
 Route::group(['middleware' => ['auth', 'isAdmin']], function () {
