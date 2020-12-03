@@ -66,8 +66,8 @@
                             @foreach (Auth::user()->getCart()->dishes as $dish)
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span>{{ $dish->name }}&nbsp;&nbsp;&nbsp;</span>
-                                    <span class="mr-5">x{{ Auth::user()->getCart()->dishes->find($dish->id)->pivot->amount }}szt.</span>
-                                    <span class="ml-5">{{ Auth::user()->getCart()->getDishPrice($dish->id)}}zł</span>
+                                    <span class="mr-5">x{{ $dish->pivot->amount }}szt.</span>
+                                    <span class="ml-5">{{ $dish->pivot->amount * $dish->price }}zł</span>
                                       <div class="float-right"></div>
                                 </li>    
                             @endforeach
@@ -75,7 +75,12 @@
                                 <p class="m-0">Price: <strong class="float-right">{{ Auth::user()->getCart()->getPrice() }}zł</strong></p>
                             </li>
                             <li class="list-group-item">
-                                <a href="{{ route('cart.clear') }}" class="btn btn-info float-right">Clear</a>
+                                <div class="btn-group float-right">
+                                    @if (Auth::user()->getCart()->dishes->count() > 0)
+                                    <a href="{{ route('order.create', Auth::user()->getCart()->id) }}" class="btn btn-info">Order</a>
+                                    @endif
+                                    <a href="{{ route('cart.clear') }}" class="btn btn-success">Clear</a>
+                                </div>
                             </li>
                         </ul>
                     </div>                

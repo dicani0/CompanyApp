@@ -16,14 +16,15 @@ class CreateDishTable extends Migration
         Schema::create('dishes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->unsignedBigInteger('supplier_id');
+            $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->string('description');
             $table->string('image');
             $table->decimal('price');
             $table->decimal('special_price');
-            $table->unsignedBigInteger('supplier_id');
             $table->timestamps();
 
-            $table->foreign('supplier_id')->references('id')->on('suppliers');
+            $table->softDeletes();
         });
     }
 

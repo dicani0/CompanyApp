@@ -37,10 +37,8 @@ class Cart extends Model
 
     public function getPrice(): int
     {
-        $price = 0;
-        foreach ($this->dishes as $dish) {
-            $price += $dish->price * $this->dishes->find($dish->id)->pivot->amount;
-        }
-        return $price;
+        return $this->dishes->reduce(function ($price, Dish $dish) {
+            return $price + $dish->price * $dish->pivot->amount;
+        }, 0);
     }
 }

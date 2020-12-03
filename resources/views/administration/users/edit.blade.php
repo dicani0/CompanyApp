@@ -26,7 +26,7 @@
 @endsection
 
 @section('scripts')
-    <script defer>
+    <script>
         $(document).ready(function() {
             $('.select-form').select2();
         });

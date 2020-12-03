@@ -4,17 +4,15 @@ namespace App\Models\Catering;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Dish extends Model
+class Order extends Model
 {
-    use SoftDeletes;
     use HasFactory;
 
     protected $guarded = [];
 
-    public function supplier()
+    public function orderItems()
     {
-        return $this->belongsTo(Supplier::class);
+        return $this->hasMany(OrderItem::class);
     }
 }

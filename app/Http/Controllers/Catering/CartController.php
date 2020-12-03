@@ -23,9 +23,12 @@ class CartController extends Controller
         $cart = Auth::user()->getCart();
         $cartContainsDish = $cart->dishes->pluck('id')->contains($dish->id);
         if ($cartContainsDish) {
-            $cart->dishes()->updateExistingPivot($dish->id, [
-                'amount' => $cart->dishes->find($dish->id)->pivot->amount + 1,
-            ]);
+            $cart->dishes()->updateExistingPivot(
+                $dish->id,
+                [
+                    'amount' => $cart->dishes->find($dish->id)->pivot->amount + 1,
+                ]
+            );
         } else {
             $cart->dishes()->attach(
                 $dish->id,

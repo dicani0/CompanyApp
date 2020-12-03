@@ -7,6 +7,7 @@ use App\Http\Controllers\Administration\UserController;
 use App\Http\Controllers\Catering\CartController;
 use App\Http\Controllers\Catering\CateringController;
 use App\Http\Controllers\Catering\DishController;
+use App\Http\Controllers\Catering\OrderController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 /*
@@ -36,6 +37,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/catering/menu/{supplier}', [DishController::class, 'allSupplierDishes'])->name('dishes');
     Route::get('/catering/menu/{supplier}/add', [DishController::class, 'create'])->name('dish.create');
     Route::post('/catering/menu/{supplier}/store', [DishController::class, 'store'])->name('dishes.store');
+    Route::get('/catering/order/{cart}/create', [OrderController::class, 'create'])->name('order.create');
 });
 
 Route::group(['middleware' => ['auth', 'isAdmin']], function () {
