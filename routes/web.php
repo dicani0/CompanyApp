@@ -8,6 +8,7 @@ use App\Http\Controllers\Catering\CartController;
 use App\Http\Controllers\Catering\CateringController;
 use App\Http\Controllers\Catering\DishController;
 use App\Http\Controllers\Catering\OrderController;
+use App\Http\Middleware\isUsersCart;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 /*
@@ -38,7 +39,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/catering/menu/{supplier}/add', [DishController::class, 'create'])->name('dish.create');
     Route::post('/catering/menu/{supplier}/store', [DishController::class, 'store'])->name('dishes.store');
 
-    Route::get('/catering/order/{cart}/create', [OrderController::class, 'create'])->name('order.create');
+    Route::get('/catering/order/{cart}/create', [OrderController::class, 'create'])->name('order.create')->middleware(isUsersCart::class);
     Route::get('/catering/order/{order}/delete', [OrderController::class, 'destroy'])->name('order.delete');
 });
 

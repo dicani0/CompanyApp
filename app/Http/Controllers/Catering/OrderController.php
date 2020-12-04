@@ -57,7 +57,7 @@ class OrderController extends Controller
             flash('Order created!');
         }
         // $cart->closeCart();
-        return view('catering.orders.summary', ['order' => $order]);
+        return view('catering.orders.summary', ['order' => $order, 'user' => $user]);
     }
 
     /**

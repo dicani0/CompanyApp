@@ -17,7 +17,7 @@
                         @foreach ($order->orderItems as $item)
                             <li class="list-group-item">
                                 <div class="d-flex flex-row justify-content-between">
-                                    <h4>{{ $item->dish->name }} &nbsp; x{{ $item->amount }} <span class="font-weight-lighter">({{ $item->dish->supplier->name }})</span></h4>
+                                    <h4 class="font-weight-bold">{{ $item->dish->name }} &nbsp; x{{ $item->amount }} <span class="font-weight-lighter">({{ $item->dish->supplier->name }})</span></h4>
                                     <small>{{ $item->price * $item->amount}}zł</small>
                                 </div>
                                 <p class="text-white-50">{{ $item->dish->description }}</p>
@@ -25,10 +25,15 @@
                         @endforeach
                     </ul>
                 </div>
-                <div class="card-footer">
-                    <a href="" class="btn btn-primary btn-lg">Order <i class="fas fa-box-open"></i></a>
-                    <a href="{{ route('order.delete', $order) }}" class="btn btn-warning btn-lg">Cancel <i class="fas fa-ban"></i></a>
-                    <h4 class="float-right text-light">Price: {{ $order->getPrice() }}zł</h4>
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a href="" class="btn btn-primary btn-lg">Order <i class="fas fa-money-bill-wave"></i></a>
+                        <a href="{{ route('order.delete', $order) }}" class="btn btn-warning btn-lg">Cancel <i class="fas fa-ban"></i></a>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <h4 class="float-right text-light">Price: {{ $order->getPrice() }}zł</h4>
+                        <small class="{{ $order->getPrice() < $user->funding->amount ? 'text-success' : 'text-warning' }}">Your current fundings {{ $user->funding->amount }}zł</small>
+                    </div>
                 </div>
             </div>
         </div>
