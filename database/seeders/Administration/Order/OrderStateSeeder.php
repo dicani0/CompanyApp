@@ -17,9 +17,7 @@ class OrderStateSeeder extends Seeder
     {
         Collection::make([
             'Preparing',
-            'Prepared',
-            'Delivering',
-            'Delivered',
+            'Finished',
             'Canceled'
         ])
             ->each(function ($name) {

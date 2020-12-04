@@ -17,12 +17,13 @@ class CreateDishTable extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('supplier_id');
-            $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->string('description');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->decimal('price');
             $table->decimal('special_price');
             $table->timestamps();
+
+            $table->foreign('supplier_id')->references('id')->on('suppliers');
 
             $table->softDeletes();
         });

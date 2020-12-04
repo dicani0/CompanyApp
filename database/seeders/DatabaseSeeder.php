@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Database\Seeders\Administration\Order\OrderItemStateSeeder;
 use Database\Seeders\Administration\Order\OrderStateSeeder;
+use Database\Seeders\Catering\DishSeeder;
 use Illuminate\Database\Seeder;
 use Database\Seeders\SupplierSeeder;
 use Database\Seeders\RoleSeeder;
@@ -17,11 +18,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
         $this->call([
             RoleSeeder::class,
             UserSeeder::class,
             SupplierSeeder::class,
+            DishSeeder::class,
             OrderStateSeeder::class,
             OrderItemStateSeeder::class,
         ]);

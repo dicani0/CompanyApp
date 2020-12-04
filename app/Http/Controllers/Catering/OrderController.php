@@ -29,25 +29,35 @@ class OrderController extends Controller
      */
     public function create(Cart $cart)
     {
-        $dishes = $cart->dishes->filter(function (Dish $dish) {
-            return !$dish->trashed();
-        });
-        $order = Order::create([
-            'user_id' => Auth::user()->id,
-            'cart_id' => $cart->id,
-            'order_state_id' => 1,
-            'message' => ''
-        ]);
-
-        $dishes->each(function (Dish $dish) use ($order) {
-            OrderItem::create([
-                'order_id' => $order->id,
-                'dish_id' => $dish->id,
-                'order_item_state_id' => 1,
-                'amount' => $dish->pivot->amount,
-                'price' => $dish->price
+        $user = Auth::user();
+        if ($user->hasUnfinishedOrder()) {
+            $order = $user->getUnfinishedOrder();
+            flash('You already have unfinished order, close or finalize it')->warning();
+        } else {
+            $order = Order::create([
+                'user_id' => $user->id,
+                'cart_id' => $cart->id,
+                'order_state_id' => 1,
+                'message' => '',
             ]);
-        });
+
+            $dishes = $cart->dishes->filter(function (Dish $dish) {
+                return !$dish->trashed();
+            });
+
+            $dishes->each(function (Dish $dish) use ($order) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'dish_id' => $dish->id,
+                    'order_item_state_id' => 1,
+                    'amount' => $dish->pivot->amount,
+                    'price' => $dish->price
+                ]);
+            });
+            flash('Order created!');
+        }
+        // $cart->closeCart();
+        return view('catering.orders.summary', ['order' => $order]);
     }
 
     /**

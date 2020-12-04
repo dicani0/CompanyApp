@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Administration\Role;
 use App\Models\Catering\Cart;
 use App\Models\Catering\Funding;
+use App\Models\Catering\Order;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -52,7 +53,7 @@ class User extends Authenticatable
      */
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class, 'user_role', 'user_id', 'role_id');
+        return $this->belongsToMany(Role::class, 'user_role', 'user_id', 'role_id')->withTimestamps();
     }
 
     public function funding()
@@ -69,6 +70,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Checks if user is verified.
+     *
+     * @return boolean
+     */
+    public function isVerified(): bool
+    {
+        return $this->verified === 1;
+    }
+
+    /**
      * Checks if user has specified role.
      * 
      * @param string $name
@@ -80,15 +91,6 @@ class User extends Authenticatable
     }
 
 
-    /**
-     * Checks if user is verified.
-     *
-     * @return boolean
-     */
-    public function isVerified(): bool
-    {
-        return $this->verified === 1;
-    }
 
     /**
      * @return HasMany
@@ -98,6 +100,11 @@ class User extends Authenticatable
         return $this->hasMany(Cart::class);
     }
 
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
     /**
      * @return Cart
      */
@@ -105,12 +112,30 @@ class User extends Authenticatable
     {
         $cart = $this->carts->last();
 
-        if (!$cart) {
+        if (!$cart || $cart->ordered) {
             $cart = new Cart;
             $cart->user_id = $this->id;
             $cart->save();
         }
 
         return $cart;
+    }
+
+    public function hasUnfinishedOrder()
+    {
+        $order = $this->orders->filter(function (Order $order) {
+            return $order->order_state_id === 1;
+        });
+
+        return $order->count() === 1;
+    }
+
+    public function getUnfinishedOrder(): Order
+    {
+        $order = $this->orders->filter(function (Order $order) {
+            return $order->order_state_id === 1;
+        })->first();
+
+        return $order;
     }
 }

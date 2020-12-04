@@ -37,5 +37,21 @@ class UserSeeder extends Seeder
             ])
             ->roles()
             ->attach(Role::find(2));
+
+        User::factory()
+            ->create([
+                'name' => 'Dostawca2',
+                'email' => 'dostawca2@test.test',
+                'password' => Hash::make('123'),
+                'verified' => 1,
+            ])
+            ->roles()
+            ->attach(Role::find(2));
+
+        User::factory()->times(50)->create();
+
+        User::all()->each(function (User $user) {
+            $user->roles()->attach(Role::find(3));
+        });
     }
 }

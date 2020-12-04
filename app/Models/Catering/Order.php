@@ -15,4 +15,13 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    public function getPrice()
+    {
+        $price = null;
+        $this->orderItems->each(function (OrderItem $item) use (&$price) {
+            $price += $item->price * $item->amount;
+        });
+        return $price;
+    }
 }

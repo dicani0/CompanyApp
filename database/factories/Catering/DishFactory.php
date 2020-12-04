@@ -2,17 +2,17 @@
 
 namespace Database\Factories\Catering;
 
-use App\Models\Catering\Supplier;
+use App\Models\Catering\Dish;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class SupplierFactory extends Factory
+class DishFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Supplier::class;
+    protected $model = Dish::class;
 
     /**
      * Define the model's default state.
@@ -22,10 +22,11 @@ class SupplierFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->unique()->company,
-            'address' => $this->faker->address,
-            'description' => $this->faker->sentence,
-            'user_id' => 2,
+            'name' => $this->faker->word(),
+            'supplier_id' => rand(1, 3),
+            'description' => $this->faker->sentence(),
+            'price' => $this->faker->randomFloat(NULL, 3, 30),
+            'special_price' => 2
         ];
     }
 }

@@ -41,4 +41,11 @@ class Cart extends Model
             return $price + $dish->price * $dish->pivot->amount;
         }, 0);
     }
+
+    public function closeCart()
+    {
+        $this->update([
+            'ordered' => 1
+        ]);
+    }
 }
