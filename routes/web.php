@@ -37,7 +37,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/catering/menu/{supplier}', [DishController::class, 'allSupplierDishes'])->name('dishes');
     Route::get('/catering/menu/{supplier}/add', [DishController::class, 'create'])->name('dish.create');
     Route::post('/catering/menu/{supplier}/store', [DishController::class, 'store'])->name('dishes.store');
+
     Route::get('/catering/order/{cart}/create', [OrderController::class, 'create'])->name('order.create');
+    Route::get('/catering/order/{order}/delete', [OrderController::class, 'destroy'])->name('order.delete');
 });
 
 Route::group(['middleware' => ['auth', 'isAdmin']], function () {

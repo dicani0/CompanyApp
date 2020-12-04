@@ -113,6 +113,9 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+        $order->orderItems()->delete();
+        $order->delete();
+        flash('Order #' . $order->id . ' deleted');
+        return redirect()->route('catering');
     }
 }

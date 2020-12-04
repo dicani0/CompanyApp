@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
-        @include('layouts.components.progress', ['progress' => 10])
+        @include('layouts.components.progress', ['progress' => 0])
     <div class="jumbotron">
         <h1 class="display-4">Welcome to Catering App!</h1>
         <hr class="my-3">

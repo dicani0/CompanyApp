@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
-        @include('layouts.components.progress', ['progress' => 60])
+        @include('layouts.components.progress', ['progress' => 50])
         <div class="d-flex mb-3">
             <h2 class="d-inline-block align-items-center">Summary</h2>
             <a href="{{ route('catering') }}" class="btn btn-info align-self-center mx-2">Go back</a>
@@ -17,7 +17,7 @@
                         @foreach ($order->orderItems as $item)
                             <li class="list-group-item">
                                 <div class="d-flex flex-row justify-content-between">
-                                    <h4>{{ $item->dish->name }} &nbsp; x{{ $item->amount }}</h4>
+                                    <h4>{{ $item->dish->name }} &nbsp; x{{ $item->amount }} <span class="font-weight-lighter">({{ $item->dish->supplier->name }})</span></h4>
                                     <small>{{ $item->price * $item->amount}}zł</small>
                                 </div>
                                 <p class="text-white-50">{{ $item->dish->description }}</p>
@@ -26,6 +26,8 @@
                     </ul>
                 </div>
                 <div class="card-footer">
+                    <a href="" class="btn btn-primary btn-lg">Order <i class="fas fa-box-open"></i></a>
+                    <a href="{{ route('order.delete', $order) }}" class="btn btn-warning btn-lg">Cancel <i class="fas fa-ban"></i></a>
                     <h4 class="float-right text-light">Price: {{ $order->getPrice() }}zł</h4>
                 </div>
             </div>
