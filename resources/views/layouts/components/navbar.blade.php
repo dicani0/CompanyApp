@@ -66,7 +66,7 @@
                             @foreach (Auth::user()->getCart()->dishes as $dish)
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span>{{ $dish->name }}&nbsp;&nbsp;&nbsp;</span>
-                                    <span class="mr-5">x{{ $dish->pivot->amount }}szt.</span>
+                                    <span class="mr-5">x{{ $dish->pivot->amount }}pcs.</span>
                                     <span class="ml-5">{{ $dish->pivot->amount * $dish->price }}zł</span>
                                       <div class="float-right"></div>
                                 </li>    
