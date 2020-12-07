@@ -30,12 +30,12 @@ class Cart extends Model
         return $this->belongsToMany(Dish::class, 'cart_dish')->withTimestamps()->withPivot('amount');
     }
 
-    public function getDishPrice($id): int
+    public function getDishPrice($id): float
     {
         return $this->dishes()->find($id)->price * $this->dishes->find($id)->pivot->amount;
     }
 
-    public function getPrice(): int
+    public function getPrice(): float
     {
         return $this->dishes->reduce(function ($price, Dish $dish) {
             return $price + $dish->price * $dish->pivot->amount;

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
-        @include('layouts.components.progress', ['progress' => 50])
+        @include('layouts.components.progress', ['progress' => 70])
         <div class="d-flex mb-3">
             <h2 class="d-inline-block align-items-center">Summary</h2>
             <a href="{{ route('catering') }}" class="btn btn-info align-self-center mx-2">Go back</a>
@@ -27,12 +27,12 @@
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                        <a href="" class="btn btn-primary btn-lg">Order <i class="fas fa-money-bill-wave"></i></a>
+                        <a href="{{ route('order.finalize', $order) }}" class="btn btn-primary btn-lg {{ $order->getPrice() > Auth::user()->funding->amount ? 'disabled' : '' }}">Order <i class="fas fa-money-bill-wave"></i></a>
                         <a href="{{ route('order.delete', $order) }}" class="btn btn-warning btn-lg">Cancel <i class="fas fa-ban"></i></a>
                     </div>
                     <div class="d-flex flex-column">
                         <h4 class="float-right text-light">Price: {{ $order->getPrice() }}zł</h4>
-                        <small class="{{ $order->getPrice() < $user->funding->amount ? 'text-success' : 'text-warning' }}">Your current fundings {{ $user->funding->amount }}zł</small>
+                        <small class="{{ $order->getPrice() < Auth::user()->funding->amount ? 'text-success' : 'text-warning' }}">Your current fundings {{ Auth::user()->funding->amount }}zł</small>
                     </div>
                 </div>
             </div>

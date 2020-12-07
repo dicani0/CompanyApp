@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Database\Seeders\Administration\Order\OrderItemStateSeeder;
 use Database\Seeders\Administration\Order\OrderStateSeeder;
 use Database\Seeders\Catering\DishSeeder;
+use Database\Seeders\Catering\FundingSeeder;
 use Illuminate\Database\Seeder;
 use Database\Seeders\SupplierSeeder;
 use Database\Seeders\RoleSeeder;
@@ -23,6 +24,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             SupplierSeeder::class,
             DishSeeder::class,
+            FundingSeeder::class,
             OrderStateSeeder::class,
             OrderItemStateSeeder::class,
         ]);

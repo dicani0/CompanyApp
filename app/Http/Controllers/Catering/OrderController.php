@@ -7,20 +7,13 @@ use App\Models\Catering\Cart;
 use App\Models\Catering\Dish;
 use App\Models\Catering\Order;
 use App\Models\Catering\OrderItem;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -29,13 +22,12 @@ class OrderController extends Controller
      */
     public function create(Cart $cart)
     {
-        $user = Auth::user();
-        if ($user->hasUnfinishedOrder()) {
-            $order = $user->getUnfinishedOrder();
+        if (Auth::user()->hasUnfinishedOrder()) {
+            $order = Auth::user()->getUnfinishedOrder();
             flash('You already have unfinished order, close or finalize it')->warning();
         } else {
             $order = Order::create([
-                'user_id' => $user->id,
+                'user_id' => Auth::user()->id,
                 'cart_id' => $cart->id,
                 'order_state_id' => 1,
                 'message' => '',
@@ -57,52 +49,28 @@ class OrderController extends Controller
             flash('Order created!');
         }
         // $cart->closeCart();
-        return view('catering.orders.summary', ['order' => $order, 'user' => $user]);
+        return view('catering.orders.summary', ['order' => $order]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function finalize(Order $order)
     {
-        //
+        $order->update([
+            'order_state_id' => 2
+        ]);
+        $order->cart->update([
+            'ordered' => 1
+        ]);
+
+        Auth::user()->funding->decrement('amount', $order->getPrice());
+
+        flash('Order sent');
+        return view('catering.orders.finalize', ['order' => $order]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Catering\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Order $order)
+    public function getUserOrders()
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Catering\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Catering\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Order $order)
-    {
-        //
+        $orders = Order::where('user_id', Auth::user()->id)->get();
+        return view('catering.orders.history', ['orders' => $orders]);
     }
 
     /**
@@ -117,5 +85,11 @@ class OrderController extends Controller
         $order->delete();
         flash('Order #' . $order->id . ' deleted');
         return redirect()->route('catering');
+    }
+
+    public function getOrder($id)
+    {
+        $order = Order::find($id)->load(['orderItems.dish']);
+        return response()->json(array('data' => $order));
     }
 }

@@ -33,14 +33,20 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/cart/add/{dish}', [CartController::class, 'addToCart'])->name('cart.add');
     Route::get('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
 
-    Route::get('/catering/dashboard', [CateringController::class, 'dashboard'])->name('catering');
+    Route::get('/catering', [CateringController::class, 'dashboard'])->name('catering');
 
     Route::get('/catering/menu/{supplier}', [DishController::class, 'allSupplierDishes'])->name('dishes');
     Route::get('/catering/menu/{supplier}/add', [DishController::class, 'create'])->name('dish.create');
     Route::post('/catering/menu/{supplier}/store', [DishController::class, 'store'])->name('dishes.store');
 
     Route::get('/catering/order/{cart}/create', [OrderController::class, 'create'])->name('order.create')->middleware(isUsersCart::class);
+    Route::get('/catering/order/history', [OrderController::class, 'getUserOrders'])->name('order.history');
+    Route::get('/catering/order/{id}', [OrderController::class, 'getOrder'])->name('order.get');
+});
+
+Route::group(['middleware' => ['auth', 'isUsersOrder']], function () {
     Route::get('/catering/order/{order}/delete', [OrderController::class, 'destroy'])->name('order.delete');
+    Route::get('/catering/order/{order}/finalize', [OrderController::class, 'finalize'])->name('order.finalize');
 });
 
 Route::group(['middleware' => ['auth', 'isAdmin']], function () {
