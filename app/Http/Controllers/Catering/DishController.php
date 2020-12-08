@@ -9,14 +9,10 @@ use Illuminate\Http\Request;
 
 class DishController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function __construct()
     {
-        //
+        $this->middleware('hasCart');
     }
 
     /**
@@ -71,50 +67,5 @@ class DishController extends Controller
             'supplier_id' => $request->supplier_id,
         ]);
         return redirect()->route('dishes', $request->supplier_id);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Catering\Dish  $dish
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Dish $dish)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Catering\Dish  $dish
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Dish $dish)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Catering\Dish  $dish
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Dish $dish)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Catering\Dish  $dish
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Dish $dish)
-    {
-        //
     }
 }

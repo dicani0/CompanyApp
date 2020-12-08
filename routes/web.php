@@ -30,7 +30,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/', function () {
         return view('home');
     });
+    Route::get('/payment/pay/{amount}', [DotpayController::class, 'pay'])->name('payment.pay');
+});
 
+Route::group(['middleware' => ['auth', 'hasCart']], function () {
     Route::get('/cart/add/{dish}', [CartController::class, 'addToCart'])->name('cart.add');
     Route::get('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
 
@@ -43,17 +46,19 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/catering/order/{cart}/create', [OrderController::class, 'create'])->name('order.create')->middleware(isUsersCart::class);
     Route::get('/catering/order/history', [OrderController::class, 'getUserOrders'])->name('order.history');
     Route::get('/catering/order/{id}', [OrderController::class, 'getOrder'])->name('order.get');
-    Route::get('/payment/pay/{amount}', [DotpayController::class, 'pay'])->name('payment.pay');
 });
+
 
 Route::post('/payment/after-pay', [DotpayController::class, 'afterPay'])->name('payment.after-pay');
 
 Route::post('/payment/callback', [DotpayController::class, 'callback'])->name('payment.callback');
 
+
 Route::group(['middleware' => ['auth', 'isUsersOrder']], function () {
     Route::get('/catering/order/{order}/delete', [OrderController::class, 'destroy'])->name('order.delete');
     Route::get('/catering/order/{order}/finalize', [OrderController::class, 'finalize'])->name('order.finalize');
 });
+
 
 Route::group(['middleware' => ['auth', 'isAdmin']], function () {
     Route::get('/administration/dashboard', [AdminDashboardController::class, 'dashboard'])->name('administration-dashboard');

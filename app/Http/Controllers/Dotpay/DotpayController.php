@@ -37,6 +37,7 @@ class DotpayController extends Controller
         ]);
 
         $user = User::find($payment->user_id);
+        $user->getCart()->closeCart();
         $user->funding->add($payment->amount);
         //Do whatever you want with this
 

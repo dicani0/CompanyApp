@@ -114,17 +114,9 @@ class User extends Authenticatable
     /**
      * @return Cart
      */
-    public function getCart(): Cart
+    public function getCart(): ?Cart
     {
-        $cart = $this->carts->last();
-
-        if (!$cart || $cart->ordered) {
-            $cart = new Cart;
-            $cart->user_id = $this->id;
-            $cart->save();
-        }
-
-        return $cart;
+        return $this->carts->last();
     }
 
     public function hasUnfinishedOrder()

@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\Auth;
 class OrderController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('hasCart');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
