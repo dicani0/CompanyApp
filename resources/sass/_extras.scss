@@ -38,5 +38,11 @@
         border: 1px solid cyan !important;
     }
 }
+
+.dropdown-hover{
+    &:hover>.dropdown-menu{
+        display: block !important;
+    }
+}
     
 

@@ -40,8 +40,24 @@
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         {{ Auth::user()->name }}
                     </a>
-
+                    
+                    
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <div class="dropdown-item disabled bg-primary text-dark">Current fundings: {{ Auth::user()->funding->amount }}zł</div>
+                        
+                        <div class="dropdown-item dropleft dropdown-hover">
+                            <div aria-haspopup="true" aria-expanded="false">
+                                Add credits
+                            </div>
+                            <div class="dropdown-menu">
+                                <a href="{{ route('payment.pay', 10) }}" class="dropdown-item">10zł</a>
+                                <a href="{{ route('payment.pay', 20) }}" class="dropdown-item">20zł</a>
+                                <a href="{{ route('payment.pay', 50) }}" class="dropdown-item">50zł</a>
+                                <a href="{{ route('payment.pay', 100) }}" class="dropdown-item">100zł</a>
+                                <a href="{{ route('payment.pay', 200) }}" class="dropdown-item">200zł</a>
+                            </div>
+                        </div>
+
                         <a href="{{ route('order.history') }}" class="dropdown-item">Orders history</a>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                 document.getElementById('logout-form').submit();">
@@ -62,8 +78,8 @@
                             </div>
                         </i>
                     </a>    
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="cartDropdown">
-                        <ul class="list-group border border-warning">
+                    <div class="dropdown-menu dropdown-menu-right border border-success" aria-labelledby="cartDropdown">
+                        <ul class="list-group">
                             @foreach (Auth::user()->getCart()->dishes as $dish)
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span>{{ $dish->name }}&nbsp;&nbsp;&nbsp;</span>

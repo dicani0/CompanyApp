@@ -27,12 +27,16 @@
                 </div>
                 <div class="card-footer d-flex justify-content-between align-items-center">
                     <div class="btn-group">
+                        {{-- <a href="{{ route('order.finalize', $order) }}" class="btn btn-primary btn-lg {{ $order->getPrice() > Auth::user()->funding->amount ? 'disabled' : '' }}">Order <i class="fas fa-money-bill-wave"></i></a> --}}
                         <a href="{{ route('order.finalize', $order) }}" class="btn btn-primary btn-lg {{ $order->getPrice() > Auth::user()->funding->amount ? 'disabled' : '' }}">Order <i class="fas fa-money-bill-wave"></i></a>
                         <a href="{{ route('order.delete', $order) }}" class="btn btn-warning btn-lg">Cancel <i class="fas fa-ban"></i></a>
                     </div>
                     <div class="d-flex flex-column">
                         <h4 class="float-right text-light">Price: {{ $order->getPrice() }}zł</h4>
                         <small class="{{ $order->getPrice() < Auth::user()->funding->amount ? 'text-success' : 'text-warning' }}">Your current fundings {{ Auth::user()->funding->amount }}zł</small>
+                        @if ($order->getPrice() > Auth::user()->funding->amount)
+                        <a href="{{ route('payment.pay', $order->getPrice() - Auth::user()->funding->amount) }}" class="btn btn-secondary">Buy missing credits</a>
+                        @endif
                     </div>
                 </div>
             </div>

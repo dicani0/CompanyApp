@@ -16,4 +16,11 @@ class Funding extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function add($amount)
+    {
+        $this->update([
+            'amount' => $this->amount + $amount
+        ]);
+    }
 }

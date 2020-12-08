@@ -6,6 +6,7 @@ use App\Models\Administration\Role;
 use App\Models\Catering\Cart;
 use App\Models\Catering\Funding;
 use App\Models\Catering\Order;
+use App\Models\Dotpay\Payment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -103,6 +104,11 @@ class User extends Authenticatable
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
     }
 
     /**
