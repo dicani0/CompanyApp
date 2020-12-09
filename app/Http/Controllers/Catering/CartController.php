@@ -54,8 +54,6 @@ class CartController extends Controller
     {
         $cart = Auth::user()->getCart();
         $cart->dishes()->detach();
-        flash('Cart cleared');
-        return redirect()->back();
     }
 
     public function getCartPrice()

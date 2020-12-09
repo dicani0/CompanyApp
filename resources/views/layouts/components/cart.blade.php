@@ -24,7 +24,7 @@
                 <div id="cart-buttons" class="list-group-item text-center {{ Auth::user()->getCart()->dishes->count() == 0 ? 'd-none' : '' }}">
                     <div class="btn-group">
                         <a id="cart-button-order" href="{{ route('order.create', Auth::user()->getCart()->id) }}" class="btn btn-info">Order</a>
-                        <a id="cart-button-clear" href="{{ route('cart.clear') }}" class="btn btn-success">Clear</a>
+                        <a id="cart-button-clear" data-url="{{ route('cart.clear') }}" class="btn btn-success">Clear</a>
                     </div>
                 </div>
     </div>                
@@ -55,7 +55,6 @@
                     <div class="col-1 delete-item" style="cursor: pointer;" data-url="/cart/deleteItem/${dish['id']}"><i class="fas fa-times-circle text-warning"></i></div>
                 </li>    
                 `);
-                // console.log(element.children[3]);
             element.children[3].onclick=deleteDish.bind(element.children[3].dataset.url);
             $('#cart-list').prepend(element);
             $('#cart-buttons').removeClass('d-none');
@@ -85,12 +84,21 @@
                 })
         }
 
-        function clearCart(){
+        function clearCartList(){
             $('.cart-item').remove();
         }
 
+        function clearCart(url){
+            console.log('click');
+            fetch(url)
+                .then(function (){
+                    reloadCart();
+                    $('#cart-buttons').addClass('d-none');
+                })
+        }
+
         function reloadCart(){
-            clearCart();
+            clearCartList();
             getCartItems();
             setCartPrice();
         }
@@ -105,6 +113,10 @@
                     reloadCart();
                 })
             });
+            $('#cart-button-clear').click(function (e) {
+                e.preventDefault();
+                clearCart(this.dataset.url);
+            })
         });
     </script>   
 @endpush
