@@ -9,7 +9,7 @@
         <div class="d-flex justify-content-between flex-wrap">
             @foreach ($supplier->dishes as $dish)
             <div class="col-sm-12 col-md-6 col-lg-4 p-3">
-                <a href="{{ route('cart.add', $dish) }}" class="card card-hover h-100 text-decoration-none text-white-50" data-toggle="tooltip" data-placement="top" title="Click to add to cart">
+                <div data-url="{{ route('cart.add', $dish) }}" class="card card-hover shadow-lg h-100 text-decoration-none text-white-50 add-to-cart" data-toggle="tooltip" data-placement="top" title="Click to add to cart" style="cursor: pointer;">
                     <div class="card-header">
                         <h3 class="card-title text-center">
                             {{ $dish->name }}
@@ -25,7 +25,7 @@
                     <div class="card-footer text-right">
                         <small>{{ $dish->price }}zł</small>
                     </div>
-                </a>
+                </div>
             </div>        
             @endforeach
         </div>

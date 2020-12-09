@@ -37,7 +37,6 @@ class DotpayController extends Controller
         ]);
 
         $user = User::find($payment->user_id);
-        $user->getCart()->closeCart();
         $user->funding->add($payment->amount);
         //Do whatever you want with this
 
@@ -70,7 +69,7 @@ class DotpayController extends Controller
             'user_id' => Auth::user()->id,
             'amount' => '100',
             'currency' => 'PLN',
-            'description' => 'Payment for internal_id order',
+            'description' => 'Payment for credits',
             'control' => '12345', //ID that dotpay will pong you in the answer
             'language' => 'pl',
             'ch_lock' => '1',
@@ -87,6 +86,6 @@ class DotpayController extends Controller
             $this->callback();
         }
         flash('Credits added to your balance!');
-        return redirect()->route('order.history');
+        return redirect()->route('catering');
     }
 }

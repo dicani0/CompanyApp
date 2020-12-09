@@ -29,7 +29,7 @@ class OrderController extends Controller
     {
         if (Auth::user()->hasUnfinishedOrder()) {
             $order = Auth::user()->getUnfinishedOrder();
-            flash('You already have unfinished order, close or finalize it')->warning();
+            // dd($order->cart);
         } else {
             $order = Order::create([
                 'user_id' => Auth::user()->id,
@@ -86,8 +86,10 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
+        $order->cart->dishes()->detach();
         $order->orderItems()->delete();
         $order->delete();
+        $order->cart()->delete();
         flash('Order #' . $order->id . ' deleted');
         return redirect()->route('catering');
     }

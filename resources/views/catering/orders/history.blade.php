@@ -59,12 +59,6 @@
             console.log();
         });
 
-
-
-        function showModal(id, amount){
-            
-        }
-
         function closeModal(){
             $('#order-history-modal').hide();
         }

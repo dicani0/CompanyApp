@@ -36,6 +36,9 @@ Route::group(['middleware' => ['auth']], function () {
 Route::group(['middleware' => ['auth', 'hasCart']], function () {
     Route::get('/cart/add/{dish}', [CartController::class, 'addToCart'])->name('cart.add');
     Route::get('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
+    Route::get('/cart/getPrice', [CartController::class, 'getCartPrice'])->name('cart.price');
+    Route::get('/cart/getItems', [CartController::class, 'getCartItems'])->name('cart.items');
+    Route::get('/cart/deleteItem/{id}', [CartController::class, 'deleteFromCart'])->name('cart.delete');
 
     Route::get('/catering', [CateringController::class, 'dashboard'])->name('catering');
 

@@ -19,11 +19,12 @@ class CartController extends Controller
     /**
      * Adds dish to cart.
      *
-     * @param  \App\Models\Catering\Dish  $dish
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function addToCart(Dish $dish)
+    public function addToCart($id)
     {
+        $dish = Dish::find($id);
         $cart = Auth::user()->getCart();
         $cartContainsDish = $cart->dishes->pluck('id')->contains($dish->id);
         if ($cartContainsDish) {
@@ -41,9 +42,12 @@ class CartController extends Controller
                 ]
             );
         }
+    }
 
-        flash($dish->name . ' added to cart');
-        return redirect()->back();
+    public function deleteFromCart($id)
+    {
+        $cart = Auth::user()->getCart();
+        $cart->dishes()->detach($id);
     }
 
     public function clearCart()
@@ -52,5 +56,17 @@ class CartController extends Controller
         $cart->dishes()->detach();
         flash('Cart cleared');
         return redirect()->back();
+    }
+
+    public function getCartPrice()
+    {
+        $cart = Auth::user()->getCart();
+        return response()->json($cart->getPrice());
+    }
+
+    public function getCartItems()
+    {
+        $cart = Auth::user()->getCart()->load(['dishes']);
+        return response()->json(array('data' => $cart));
     }
 }
