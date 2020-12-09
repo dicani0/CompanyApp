@@ -6,7 +6,7 @@
             </div>
         </i>
     </a>    
-    <div class="dropdown-menu dropdown-menu-right border border-success" aria-labelledby="cartDropdown">
+    <div class="dropdown-menu dropdown-menu-right border border-success p-0" aria-labelledby="cartDropdown">
         <ul class="list-group" id="cart-list">
             {{-- @foreach (Auth::user()->getCart()->dishes as $dish)
                 <li class="list-group-item d-flex justify-content-between cart-item">
@@ -20,15 +20,13 @@
                 <div class="col-12"><p class="m-0">Price: <strong class="cart-price">{{ Auth::user()->getCart()->getPrice() }}zł</strong></p></div>
                 
             </li>
-            <li class="list-group-item text-center">
-                <div class="btn-group">
-                    @if (Auth::user()->getCart()->dishes->count() > 0)
-                    <a href="{{ route('order.create', Auth::user()->getCart()->id) }}" class="btn btn-info">Order</a>
-                    @endif
-                    <a href="{{ route('cart.clear') }}" class="btn btn-success">Clear</a>
-                </div>
-            </li>
         </ul>
+                <div id="cart-buttons" class="list-group-item text-center {{ Auth::user()->getCart()->dishes->count() == 0 ? 'd-none' : '' }}">
+                    <div class="btn-group">
+                        <a id="cart-button-order" href="{{ route('order.create', Auth::user()->getCart()->id) }}" class="btn btn-info">Order</a>
+                        <a id="cart-button-clear" href="{{ route('cart.clear') }}" class="btn btn-success">Clear</a>
+                    </div>
+                </div>
     </div>                
 </li>
 
@@ -60,6 +58,7 @@
                 // console.log(element.children[3]);
             element.children[3].onclick=deleteDish.bind(element.children[3].dataset.url);
             $('#cart-list').prepend(element);
+            $('#cart-buttons').removeClass('d-none');
         }
 
 
