@@ -26,7 +26,6 @@ class DotpayController extends Controller
     {
         if (config('dotpay.api.api_version') !== 'dev') {
             $response = $this->dotpayManager->callback(request()->all());
-
             $payment = Payment::find($response['payment_id']);
         } else {
             $payment = Payment::all()->last();
@@ -67,7 +66,7 @@ class DotpayController extends Controller
 
         Payment::create([
             'user_id' => Auth::user()->id,
-            'amount' => '100',
+            'amount' => $amount,
             'currency' => 'PLN',
             'description' => 'Payment for credits',
             'control' => '12345', //ID that dotpay will pong you in the answer

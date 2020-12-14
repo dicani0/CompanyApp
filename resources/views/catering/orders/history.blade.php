@@ -1,18 +1,33 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
-    <ul class="list-group">
-        @foreach ($orders as $order)
-            <button type="button" data-target="#order-history-modal" id="{{ $order->id }}" class="modal-button list-group-item neon d-flex flex-row justify-content-between text-decoration-none text-success">
-                <div class="">
-                    <strong>Order #{{ $order->id }}</strong><p>Price: {{ $order->getPrice() }}zł</p>
-                </div>
-                <div class="">
-                    <p>{{ $order->created_at }}</p>
-                </div>
-            </button>
-        @endforeach
-    </ul>
+<div class="row mx-5">
+    <div class="col-8">
+        <ul class="list-group">
+            @foreach ($orders as $order)
+                <button type="button" data-target="#order-history-modal" id="{{ $order->id }}" class="modal-button list-group-item neon d-flex flex-row justify-content-between text-decoration-none text-success">
+                    <div class="">
+                        <strong>Order #{{ $order->id }}</strong><p>Price: {{ $order->getPrice() }}zł</p>
+                    </div>
+                    <div class="">
+                        <p>{{ $order->created_at }}</p>
+                    </div>
+                </button>
+            @endforeach
+        </ul>
+    </div>
+    <div class="col-4">
+        <div class="card text-center">
+            <div class="card-header">Summary</div>
+            <div class="card-body">
+                <h5>Total orders</h5>
+                <p class="lead">{{ $orders->count() }}</p>
+                <hr>
+                <h5>Total money spent</h5>
+                <p class="lead">{{ number_format($orders->pluck('orderItems')->flatten()->pluck('cost')->sum(), 2) }}zł</p>
+                <hr>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="modal fade" id="order-history-modal" tabindex="-1" aria-labelledby="order-history-modal" aria-hidden="true">

@@ -89,7 +89,6 @@
         }
 
         function clearCart(url){
-            console.log('click');
             fetch(url)
                 .then(function (){
                     reloadCart();

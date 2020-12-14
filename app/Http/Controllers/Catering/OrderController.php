@@ -29,7 +29,7 @@ class OrderController extends Controller
     {
         if (Auth::user()->hasUnfinishedOrder()) {
             $order = Auth::user()->getUnfinishedOrder();
-            // dd($order->cart);
+            $order->orderItems()->delete();
         } else {
             $order = Order::create([
                 'user_id' => Auth::user()->id,
@@ -37,23 +37,21 @@ class OrderController extends Controller
                 'order_state_id' => 1,
                 'message' => '',
             ]);
-
-            $dishes = $cart->dishes->filter(function (Dish $dish) {
-                return !$dish->trashed();
-            });
-
-            $dishes->each(function (Dish $dish) use ($order) {
-                OrderItem::create([
-                    'order_id' => $order->id,
-                    'dish_id' => $dish->id,
-                    'order_item_state_id' => 1,
-                    'amount' => $dish->pivot->amount,
-                    'price' => $dish->price
-                ]);
-            });
-            flash('Order created!');
         }
-        // $cart->closeCart();
+
+        $dishes = $cart->dishes->filter(function (Dish $dish) {
+            return !$dish->trashed();
+        });
+
+        $dishes->each(function (Dish $dish) use ($order) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'dish_id' => $dish->id,
+                'order_item_state_id' => 1,
+                'amount' => $dish->pivot->amount,
+                'price' => $dish->price
+            ]);
+        });
         return view('catering.orders.summary', ['order' => $order]);
     }
 
@@ -66,6 +64,11 @@ class OrderController extends Controller
             'ordered' => 1
         ]);
 
+        if (Auth::user()->funding->amount < $order->getPrice()) {
+            flash('Not enough credits')->warning();
+            return redirect()->back();
+        }
+
         Auth::user()->funding->decrement('amount', $order->getPrice());
 
         flash('Order sent');
@@ -75,6 +78,9 @@ class OrderController extends Controller
     public function getUserOrders()
     {
         $orders = Order::where('user_id', Auth::user()->id)->get();
+        // $orderstmp = $orders->pluck('orderItems')->flatten()->map(function (OrderItem $orderItem) {
+        //     return $orderItem->amount * $orderItem->
+        // });
         return view('catering.orders.history', ['orders' => $orders]);
     }
 

@@ -11,6 +11,7 @@
             @include('flash::message')
             @include('layouts.components.messages')
         </div>
+        {{-- <flash message="Hello"></flash> --}}
         <main class="py-4">
             @yield('content')
         </main>

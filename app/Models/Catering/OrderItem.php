@@ -15,4 +15,9 @@ class OrderItem extends Model
     {
         return $this->belongsTo(Dish::class);
     }
+
+    public function getCostAttribute()
+    {
+        return $this->amount * $this->price;
+    }
 }
